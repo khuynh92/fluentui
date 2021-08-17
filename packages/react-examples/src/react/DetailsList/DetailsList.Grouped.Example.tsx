@@ -10,6 +10,7 @@ import {
   IToggleStyles,
   mergeStyles,
   Toggle,
+  IDetailsHeaderCollapseIconProps,
 } from '@fluentui/react';
 import { DefaultButton, IButtonStyles } from '@fluentui/react/lib/Button';
 
@@ -143,7 +144,18 @@ export class DetailsListGroupedExample extends React.Component<{}, IDetailsListG
   };
 
   private _onRenderDetailsHeader(props: IDetailsHeaderProps, _defaultRender?: IRenderFunction<IDetailsHeaderProps>) {
-    return <DetailsHeader {...props} ariaLabelForToggleAllGroupsButton={'Expand collapse groups'} />;
+    return (
+      <DetailsHeader
+        {...props}
+        ariaLabelForToggleAllGroupsButton={'Expand collapse groups'}
+        onRenderCollapseIcon={(
+          props: IDetailsHeaderCollapseIconProps,
+          defaultRender?: IRenderFunction<IDetailsHeaderCollapseIconProps>,
+        ) => {
+          return defaultRender({ ...props, iconName: 'ChevronRightSmall' });
+        }}
+      />
+    );
   }
 
   private _onRenderColumn(item: IDetailsListGroupedExampleItem, index: number, column: IColumn) {

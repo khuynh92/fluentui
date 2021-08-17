@@ -91,8 +91,8 @@ export class DetailsColumnBase extends React.Component<IDetailsColumnProps> {
     const IconComponent = useFastIcons ? FontIcon : Icon;
 
     const onRenderFilterIcon = column.onRenderFilterIcon
-      ? composeRenderFunction(column.onRenderFilterIcon, this._onRenderFilterIcon(this._classNames))
-      : this._onRenderFilterIcon(this._classNames);
+      ? composeRenderFunction(column.onRenderFilterIcon, this._onRenderFilterIcon)
+      : this._onRenderFilterIcon;
 
     const onRenderHeader = column.onRenderHeader
       ? composeRenderFunction(column.onRenderHeader, defaultOnRenderHeader(this._classNames))
@@ -242,9 +242,7 @@ export class DetailsColumnBase extends React.Component<IDetailsColumnProps> {
     }
   }
 
-  private _onRenderFilterIcon = (classNames: IProcessedStyleSet<IDetailsColumnStyles>) => (
-    props: IDetailsColumnFilterIconProps,
-  ): JSX.Element => {
+  private _onRenderFilterIcon = (props: IDetailsColumnFilterIconProps): JSX.Element => {
     const { columnProps, ...iconProps } = props;
     const IconComponent = columnProps?.useFastIcons ? FontIcon : Icon;
 

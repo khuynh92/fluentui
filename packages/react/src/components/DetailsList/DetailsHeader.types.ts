@@ -8,6 +8,7 @@ import { ICellStyleProps, IDetailsItemProps } from './DetailsRow.types';
 import { ISelection, SelectionMode } from '../../Selection';
 import { IDetailsCheckboxProps } from './DetailsRowCheck.types';
 import { IDetailsColumnRenderTooltipProps } from './DetailsColumn.types';
+import { IIconProps } from '../Icon/Icon.types';
 
 /**
  * {@docCategory DetailsList}
@@ -50,6 +51,9 @@ export interface IDetailsHeaderBaseProps extends React.ClassAttributes<DetailsHe
 
   /** Callback to render a tooltip for the column header */
   onRenderColumnHeaderTooltip?: IRenderFunction<IDetailsColumnRenderTooltipProps>;
+
+  /** Callback to render the collapse icons in the header */
+  onRenderCollapseIcon?: IRenderFunction<ICollapseIconProps>;
 
   /** Whether to collapse for all visibility */
   collapseAllVisibility?: CollapseAllVisibility;
@@ -228,4 +232,11 @@ export interface IDetailsHeaderStyles {
   dropHintLineStyle: IStyle;
   dropHintStyle: IStyle;
   accessibleLabel: IStyle;
+}
+
+/**
+ * {@docCategory DetailsList}
+ */
+export interface IDetailsHeaderCollapseIconProps extends IIconProps {
+  headerProps?: IDetailsHeaderBaseProps;
 }

@@ -9,6 +9,7 @@ import {
   getId,
   KeyCodes,
   classNamesFunction,
+  composeRenderFunction,
 } from '../../Utilities';
 import {
   IColumn,
@@ -32,6 +33,7 @@ import {
   IDropHintDetails,
   IColumnReorderHeaderProps,
   IDetailsHeaderState,
+  IDetailsHeaderCollapseIconProps,
 } from './DetailsHeader.types';
 import { IDetailsHeaderStyleProps, IDetailsHeaderStyles, IDetailsHeader } from './DetailsHeader.types';
 
@@ -208,9 +210,12 @@ export class DetailsHeaderBase
     });
 
     const classNames = this._classNames;
-    const IconComponent = useFastIcons ? FontIcon : Icon;
 
     const isRTL = getRTL(theme);
+
+    const onRenderCollapseIcon = this.props.onRenderCollapseIcon
+      ? composeRenderFunction(this.props.onRenderCollapseIcon, this._onRenderCollapseIcon)
+      : this._onRenderCollapseIcon;
     return (
       <FocusZone
         role="row"
@@ -293,10 +298,15 @@ export class DetailsHeaderBase
             aria-expanded={!isAllCollapsed}
             role="columnheader"
           >
-            <IconComponent
+            {/* <IconComponent
               className={classNames.collapseButton}
               iconName={isRTL ? 'ChevronLeftMed' : 'ChevronRightMed'}
-            />
+            /> */}
+            {onRenderCollapseIcon({
+              headerProps: this.props,
+              className: classNames.collapseButton,
+              iconName: isRTL ? 'ChevronLeftMed' : 'ChevronRightMed',
+            })}
           </div>
         ) : null}
         <GroupSpacer indentWidth={indentWidth} role="gridcell" count={groupNestingDepth! - 1} />
@@ -696,6 +706,13 @@ export class DetailsHeaderBase
       onColumnAutoResized(columns[columnIndex], columnIndex);
     }
   }
+
+  private _onRenderCollapseIcon = (props: IDetailsHeaderCollapseIconProps): JSX.Element => {
+    const { headerProps, ...iconProps } = props;
+    const IconComponent = headerProps?.useFastIcons ? FontIcon : Icon;
+
+    return <IconComponent {...iconProps} />;
+  };
 
   /**
    * Called when the select all toggle is clicked.
